@@ -1,0 +1,45 @@
+虚拟主机只支持根目录绑定域名，如何让网站支持多个域名呢?如果虚拟主机支持.htaccess，可以利用.htacces实现一个网站空间可以用多个二级域名指向多个二级目录，建立多个网站。
+
+以独立IP虚拟主机为例：
+
+
+一、将域名做一个泛解析*.xxx.me 解析到你的空间IP，独立IP虚拟主机支持泛解析，不需要绑定域名就可以访问网站。
+
+
+二、建立bbs 、bbs 目录，将CMS上传到根目录，将论坛上传到bbs目录。
+
+
+三、打开记事本将以下代码复制进去，保存为.htaccess文件，上传到根目录下。
+
+
+.htaccess文件内容如下：
+
+    RewriteEngine on
+
+    RewriteBase /
+    DirectoryIndex index.php index.html index.htm
+
+
+    #让http://www.xxx.me/ 访问根目录CMS
+    RewriteCond %{HTTP_HOST} ^www.xxx.me$
+    RewriteCond %{REQUEST_URI} !^/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /$1
+    RewriteCond %{HTTP_HOST} ^www.xxx.me$
+    RewriteRule ^(/)?$ /index.php [L]
+
+
+    #让bbs.xxx.me 访问bbs目录论坛
+    RewriteCond %{HTTP_HOST} ^bbs.xxx.me$
+    RewriteCond %{REQUEST_URI} !^/wap/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /bbs/$1
+    RewriteCond %{HTTP_HOST} ^bbs.xxx.me/ $
+    RewriteRule ^(/)?$ bbs/index.php [L]
+
+
+按照以上方法可以一个空间建立N个网站，当实现一个空间建立多个网站的功能。
+
+亲测有效！！！
