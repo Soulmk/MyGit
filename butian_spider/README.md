@@ -23,6 +23,7 @@ bug_keys用于存储爬虫关键字
   `key_level` varchar(255) NOT NULL,
   PRIMARY KEY (`key_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-***
-**其中：run.bat可将程序输出信息保存到log.txt中，以备日后查看日志
+
+##其中：
+run.bat可将程序输出信息保存到log.txt中，以备日后查看日志
 sign.txt为爬虫标记，存储爬虫第一个url记录，以备后面循环任务到此标记结束爬行
